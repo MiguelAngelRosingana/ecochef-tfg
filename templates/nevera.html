@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Mi Nevera{% endblock %}
+
+{% block content %}
+<div class="container mt-5" style="max-width: 700px;">
+    
+    <div class="text-center mb-5">
+        <h6 class="text-uppercase text-success fw-bold ls-2">Inventario</h6>
+        <h1 class="fw-bold display-5">🥕 ¿Qué tienes en casa?</h1>
+    </div>
+
+    <div class="card-premium bg-white p-4 mb-4">
+        <form action="/nevera" method="POST" class="row g-2 align-items-center">
+            <div class="col-md-9">
+                <div class="input-group input-group-lg">
+                    <span class="input-group-text bg-light border-0"><i class="bi bi-search"></i></span>
+                    <input type="text" name="nombre_ingrediente" class="form-control bg-light border-0" placeholder="Ej: Huevos, leche, patatas..." required autofocus>
+                </div>
+            </div>
+            <div class="col-md-3 d-grid">
+                <button type="submit" class="btn btn-eco btn-lg">Añadir</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="card-premium bg-white">
+        <ul class="list-group list-group-flush">
+            {% for item in ingredientes %}
+                <li class="list-group-item p-4 d-flex justify-content-between align-items-center border-0 border-bottom">
+                    <span class="fs-4 fw-medium text-capitalize">
+                        <i class="bi bi-check-circle-fill text-success me-3"></i>{{ item.nombre }}
+                    </span>
+                    
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="badge bg-success-subtle text-success rounded-pill px-3 py-2 d-none d-sm-inline-block">
+                            Disponible
+                        </span>
+                        
+                        <a href="/nevera/borrar/{{ item.id }}" class="btn btn-outline-danger btn-sm rounded-circle shadow-sm" style="width: 38px; height: 38px; padding-top: 6px;" title="Tirar a la basura">
+                            <i class="bi bi-trash-fill"></i>
+                        </a>
+                    </div>
+                </li>
+            {% else %}
+                <li class="list-group-item text-center py-5 border-0">
+                    <i class="bi bi-box-seam display-1 text-muted opacity-25 mb-3"></i>
+                    <h4 class="text-muted">Tu nevera está vacía</h4>
+                    <p class="text-muted">Añade tu primer ingrediente arriba.</p>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    {% if ingredientes %}
+    <div class="text-center mt-5">
+        <p class="text-muted mb-3">¿Listo para cocinar con esto?</p>
+        <a href="/recetas" class="btn btn-eco btn-lg px-5 shadow">
+            <i class="bi bi-magic me-2"></i> Buscar Recetas Ahora
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

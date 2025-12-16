@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}Recetas Sugeridas{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    
+    <div class="row mb-5 align-items-center">
+        <div class="col-md-8">
+            <h6 class="text-uppercase text-muted fw-bold ls-2 mb-2">Resultados del Chef</h6>
+            <h1 class="fw-bold display-5 text-dark">
+                🍽️ Recetas para: 
+                <span class="text-success text-decoration-underline">{{ ingredient }}</span>
+            </h1>
+            <p class="text-muted mt-2">
+                Hemos buscado recetas que aprovechen al máximo lo que tienes en la nevera.
+            </p>
+        </div>
+        <div class="col-md-4 text-md-end mt-3 mt-md-0">
+            <a href="/nevera" class="btn btn-outline-dark rounded-pill px-4 shadow-sm">
+                <i class="bi bi-arrow-left me-2"></i> Volver a la Nevera
+            </a>
+        </div>
+    </div>
+
+    {% if platos %}
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            {% for plato in platos %}
+            <div class="col">
+                <div class="card h-100 card-premium bg-white border-0">
+                    
+                    <div style="height: 250px; overflow: hidden; position: relative;">
+                        <img src="{{ plato.image }}" 
+                             class="card-img-top w-100 h-100" 
+                             style="object-fit: cover;" 
+                             alt="{{ plato.title }}"
+                             onerror="this.src='https://via.placeholder.com/400x300?text=Sin+Foto'">
+                        
+                        <span class="position-absolute top-0 end-0 m-3 badge bg-white text-success shadow-sm rounded-pill">
+                            <i class="bi bi-stars text-warning"></i> Sugerencia
+                        </span>
+                    </div>
+
+                    <div class="card-body p-4 d-flex flex-column">
+                        
+                        <h5 class="card-title fw-bold text-dark mb-3" style="min-height: 50px;">
+                            {{ plato.title }}
+                        </h5>
+                        
+                        <div class="mb-4">
+                            {% if plato.texto_faltantes %}
+                                <div class="alert alert-warning py-2 px-3 small border-0 shadow-sm d-flex align-items-start" style="background-color: #fff3cd; color: #856404;">
+                                    <i class="bi bi-basket me-2 mt-1"></i> 
+                                    <div>
+                                        <strong>Te falta:</strong> {{ plato.texto_faltantes }}
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="alert alert-success py-2 px-3 small border-0 shadow-sm" style="background-color: #d4edda; color: #155724;">
+                                    <i class="bi bi-check-circle-fill me-2"></i> 
+                                    <strong>¡Tienes todos los ingredientes!</strong>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mt-auto">
+                            <a href="https://www.google.com/search?q=receta+{{ plato.title }}" target="_blank" class="btn btn-outline-eco w-100 stretched-link">
+                                Ver cómo se cocina <i class="bi bi-box-arrow-up-right ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    {% else %}
+        <div class="text-center py-5">
+            <div class="card-premium d-inline-block p-5 bg-white shadow">
+                <i class="bi bi-emoji-dizzy display-1 text-warning mb-3"></i>
+                <h3 class="fw-bold mt-3">¡Vaya! No encontramos recetas.</h3>
+                <p class="text-muted lead">
+                    No hemos encontrado combinaciones exactas para tus ingredientes.
+                </p>
+                <p class="small text-muted mb-4">
+                    Prueba a añadir ingredientes básicos como "Arroz", "Pasta" o "Huevos".
+                </p>
+                <a href="/nevera" class="btn btn-eco btn-lg px-5">
+                    Añadir más ingredientes
+                </a>
+            </div>
+        </div>
+    {% endif %}
+
+</div>
+{% endblock %}

@@ -1,0 +1,106 @@
+/* Importamos la fuente Poppins de Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+:root {
+    /* Definimos nuestra paleta de colores "EcoChef" */
+    --eco-primary: #2ecc71;  /* Un verde esmeralda vibrante */
+    --eco-secondary: #27ae60; /* Un verde más oscuro para hovers */
+    --eco-dark: #2c3e50;      /* Un azul oscuro para textos */
+    --eco-light: #ecf0f1;     /* Un gris muy claro para fondos */
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f9fa; /* Fondo gris muy suave */
+    color: var(--eco-dark);
+}
+
+/* --- Mejoras en la Navegación --- */
+.navbar-custom {
+    background-color: #fff !important;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.05); /* Sombra suave premium */
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    color: var(--eco-primary) !important;
+    font-size: 1.5rem;
+}
+
+.nav-link {
+    color: var(--eco-dark) !important;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--eco-primary) !important;
+}
+
+/* --- Tarjetas y Contenedores Premium --- */
+.card-premium {
+    border: none;
+    border-radius: 15px; /* Bordes más redondeados */
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+}
+
+/* Efecto "Hover" (flotar) al pasar el ratón */
+.card-premium:hover {
+    transform: translateY(-5px); /* Se levanta un poco */
+    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+}
+
+/* --- Botones Personalizados --- */
+.btn-eco {
+    background-color: var(--eco-primary);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 50px; /* Botones píldora */
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-eco:hover {
+    background-color: var(--eco-secondary);
+    transform: scale(1.05); /* Crece un poquito */
+    color: white;
+}
+
+.btn-outline-eco {
+    border: 2px solid var(--eco-primary);
+    color: var(--eco-primary);
+    border-radius: 50px;
+    font-weight: 600;
+    padding: 10px 25px;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-eco:hover {
+    background-color: var(--eco-primary);
+    color: white;
+}
+
+/* --- Cabecera Hero (Portada) --- */
+.hero-section {
+    /* Un degradado moderno */
+    background: linear-gradient(135deg, var(--eco-primary) 0%, var(--eco-dark) 100%);
+    color: white;
+    padding: 100px 0;
+    border-radius: 0 0 30px 30px;
+    margin-bottom: 50px;
+}
+
+/* --- Footer --- */
+.footer-premium {
+    background-color: white;
+    padding: 30px 0;
+    margin-top: 50px;
+    text-align: center;
+    border-top: 1px solid #eee;
+    color: #7f8c8d;
+}

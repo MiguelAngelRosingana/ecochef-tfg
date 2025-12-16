@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio{% endblock %}
+
+{% block content %}
+
+<section class="hero-section text-center text-white position-relative" style="overflow: hidden;">
+    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: rgba(0,0,0,0.1);"></div>
+    
+    <div class="container position-relative py-5">
+        <i class="bi bi-recycle display-1 mb-3 text-white-50"></i>
+        <h1 class="display-3 fw-bold mb-3">Tu cocina, inteligente.</h1>
+        <p class="lead mb-5 px-md-5 text-white-50 fw-light" style="max-width: 800px; margin: 0 auto;">
+            EcoChef te ayuda a reducir el desperdicio de alimentos. Gestiona tu nevera, descubre recetas con lo que ya tienes y organiza tu compra en un solo lugar.
+        </p>
+        
+        <div class="d-flex justify-content-center gap-3">
+            <a href="/nevera" class="btn btn-light btn-lg px-4 fw-bold rounded-pill shadow-lg text-success">
+                <i class="bi bi-snow me-2"></i> Ver mi Nevera
+            </a>
+            <a href="/recetas" class="btn btn-outline-light btn-lg px-4 fw-bold rounded-pill">
+                <i class="bi bi-magic me-2"></i> Cocinar ya
+            </a>
+        </div>
+    </div>
+</section>
+
+<div class="container my-5" style="margin-top: -50px !important;">
+    <div class="row g-4 text-center">
+        
+        <div class="col-md-4">
+            <div class="card-premium h-100 p-4 bg-white shadow-sm border-0">
+                <div class="mb-3 text-success">
+                    <i class="bi bi-box-seam display-4"></i>
+                </div>
+                <h3 class="h4 fw-bold">1. Tu Inventario</h3>
+                <p class="text-muted small">Añade los ingredientes que tienes por casa para no olvidarlos.</p>
+                <a href="/nevera" class="btn btn-outline-success btn-sm mt-2 rounded-pill">Gestionar</a>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card-premium h-100 p-4 bg-white shadow border-0 position-relative overflow-hidden">
+                <div class="mb-3 text-primary">
+                    <i class="bi bi-stars display-4 text-warning"></i>
+                </div>
+                <h3 class="h4 fw-bold">2. Chef IA</h3>
+                <p class="text-muted small">Nuestra inteligencia busca recetas que combinen tus ingredientes.</p>
+                <a href="/recetas" class="btn btn-warning text-white btn-sm mt-2 rounded-pill shadow-sm fw-bold px-4">
+                    Buscar Recetas
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card-premium h-100 p-4 bg-white shadow-sm border-0">
+                <div class="mb-3 text-warning">
+                    <i class="bi bi-cart-check display-4 text-dark"></i>
+                </div>
+                <h3 class="h4 fw-bold">3. Lista Compra</h3>
+                <p class="text-muted small">Anota lo que te falta. Si cocinas algo, bórralo de la nevera y añádelo aquí.</p>
+                <a href="/lista" class="btn btn-outline-dark btn-sm mt-2 rounded-pill">Ver Lista</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mb-5">
+    <div class="row align-items-center bg-white rounded-4 shadow-sm p-4 p-lg-5 mx-1">
+        
+        <div class="col-md-6 mb-4 mb-md-0">
+            <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill mb-3">Estadísticas</span>
+            <h2 class="fw-bold mb-3">Resumen de tu Cocina</h2>
+            <p class="text-muted lead">
+                Actualmente tienes <strong>{{ n_nevera }} ingredientes</strong> listos para usar y 
+                <strong>{{ n_lista }} productos</strong> pendientes de comprar.
+            </p>
+            <hr>
+            <div class="d-flex gap-4 mt-4">
+                <div>
+                    <h3 class="fw-bold text-success mb-0">{{ n_nevera }}</h3>
+                    <small class="text-muted">En Nevera</small>
+                </div>
+                <div class="vr"></div>
+                <div>
+                    <h3 class="fw-bold text-warning mb-0">{{ n_lista }}</h3>
+                    <small class="text-muted">Por Comprar</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 d-flex justify-content-center">
+            <div style="width: 300px; height: 300px;">
+                <canvas id="graficoResumen"></canvas>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const ctx = document.getElementById('graficoResumen');
+        
+        // Datos que vienen de Flask (app.py)
+        const nNevera = {{ n_nevera }};
+        const nLista = {{ n_lista }};
+
+        // Si ambos son 0, ponemos datos falsos visuales para que no quede feo el gráfico vacío
+        const dataValues = (nNevera === 0 && nLista === 0) ? [1, 1] : [nNevera, nLista];
+        const bgColors = (nNevera === 0 && nLista === 0) ? ['#e9ecef', '#dee2e6'] : ['#2ecc71', '#f1c40f'];
+
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['En la Nevera', 'Lista de Compra'],
+                datasets: [{
+                    label: 'Cantidad',
+                    data: dataValues,
+                    backgroundColor: bgColors,
+                    hoverOffset: 4,
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: { family: "'Poppins', sans-serif" },
+                            usePointStyle: true
+                        }
+                    }
+                },
+                cutout: '70%', // Hace el agujero del donut más grande
+            }
+        });
+    });
+</script>
+
+{% endblock %}
