@@ -1,0 +1,21 @@
+# Entorno y secretos
+.env
+venv/
+env/
+.venv/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Base de datos local
+instance/
+*.db
+*.sqlite3
+
+# Sistema y editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
