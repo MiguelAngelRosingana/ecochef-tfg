@@ -3,6 +3,12 @@ from flask_sqlalchemy import SQLAlchemy
 import requests
 from deep_translator import GoogleTranslator
 import socket
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+
 
 # --- PARCHE PARA ARREGLAR CONEXIÓN EN WINDOWS ---
 # Guarda la función original para evitar recursión infinita
@@ -80,7 +86,7 @@ def recetas():
     print("--- 🔍 BUSCANDO RECETAS (SPOONACULAR + TRADUCCIÓN) ---")
     
     # ⚠️ ¡IMPORTANTE! Pega aquí tu clave de Spoonacular
-    API_KEY = "bd7c4b4baf7b4dfe8bd8c3fe6bc8632e"
+   API_KEY = os.getenv("SPOONACULAR_API_KEY")
     
     # 1. Recuperamos TODOS los ingredientes
     todos_ingredientes = Ingrediente.query.all()
